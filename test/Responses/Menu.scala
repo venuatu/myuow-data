@@ -1,9 +1,9 @@
 package Responses
 
 object Menu {
-	// GET sols_menu.display_sols_menu?p_system=STUDENT&p_menu_name=MAIN_MENU&p_student_number=1234567&p_session_id=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG
-    val cs = "28192482061335740121"
-    val response = new Response(200, """
+  // GET sols_menu.display_sols_menu?p_system=STUDENT&p_menu_name=MAIN_MENU&p_student_number=1234567&p_session_id=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG
+  val cs = "28192482061335740121"
+  val response = new Response(200, """
 <HTML>
 <HEAD>
 <BODY id="bucket">
