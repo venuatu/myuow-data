@@ -6,9 +6,9 @@ import com.ning.http.util.Base64
  * Some crypto functions that give ciphertext in a url friendly way
  */
 object Crypto {
-	private val replaceChars = Array(Array('+', '-'), Array('/', '_'), Array('=', '.'))
+  private val replaceChars = Array(Array('+', '-'), Array('/', '_'), Array('=', '.'))
   
-	def encode(str: String): String = {
+  def encode(str: String): String = {
     encode(str.toCharArray.map{_.toByte})
   }
   def encode(bytes: Array[Byte]): String = {
