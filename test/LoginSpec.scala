@@ -53,4 +53,30 @@ class LoginSpec extends UnitSpec with BeforeExample {
       (json \ "cs").as[String] must equalTo(Responses.Menu.cs)
     }
   }
+    
+  "/checkauth" should {
+    "be ok when a session is valid" in {
+      http.get(any[String]) returns Future { Responses.CheckAuth.good }
+      val controller = new controllers.Account(http)
+      val result = controller.checkAuth("", "", "")(FakeRequest())
+      
+      status(result) must equalTo(200)
+    }
+    
+    "fail when a session times out" in {
+      http.get(any[String]) returns Future { Responses.CheckAuth.timedOut }
+      val controller = new controllers.Account(http)
+      val result = controller.checkAuth("", "", "")(FakeRequest())
+      
+      status(result) must equalTo(401)
+    }
+    
+    "fail when a session is reaaaalllly old" in {
+      http.get(any[String]) returns Future { Responses.CheckAuth.parameterMismatch }
+      val controller = new controllers.Account(http)
+      val result = controller.checkAuth("", "", "")(FakeRequest())
+      
+      status(result) must equalTo(401)
+    }
+  }
 }

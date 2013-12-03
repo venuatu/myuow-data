@@ -18,10 +18,10 @@ object Menu {
                 <div style="display:"";">
                     <ul class="navLinks">
                         <li>
-                            <a href="/sid/sols_to_lms.call_main?P_STUDENT_NUMBER=4067381&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="Access your online subjects in the eLearning space">eLearning</a>
+                            <a href="/sid/sols_to_lms.call_main?P_STUDENT_NUMBER=1234567&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="Access your online subjects in the eLearning space">eLearning</a>
                         </li> 
                         <li>
-                            <a href="/sid/Assignment_Result.call_main?P_STUDENT_NUMBER=4067381&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="View your assignment results (Note: Not all lecturers post results here)">Assignment Results</a>
+                            <a href="/sid/Assignment_Result.call_main?P_STUDENT_NUMBER=1234567&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="View your assignment results (Note: Not all lecturers post results here)">Assignment Results</a>
                         </li> 
                     </ul>
                 </div>
@@ -37,10 +37,10 @@ object Menu {
                 <div style="display:"";">
                     <ul class="navLinks">
                         <li>
-                            <a href="/sid/er_exam_timetable.call_main?P_STUDENT_NUMBER=4067381&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="Check your exam timetable here when it is released">Exam Timetable</a>
+                            <a href="/sid/er_exam_timetable.call_main?P_STUDENT_NUMBER=1234567&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="Check your exam timetable here when it is released">Exam Timetable</a>
                         </li> 
                         <li>
-                            <a href="/sid/timetable_student.call_main?P_STUDENT_NUMBER=4067381&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="Once you have enrolled, this link shows your own personal subject timetable">Subject Timetable</a></li> 
+                            <a href="/sid/timetable_student.call_main?P_STUDENT_NUMBER=1234567&P_SESSION_ID=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_cs=28192482061335740121" target="rightFrame" title="Once you have enrolled, this link shows your own personal subject timetable">Subject Timetable</a></li> 
                         </li>
                     </ul>
                 </div>

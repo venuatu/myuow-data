@@ -1,7 +1,13 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 
-POST    /login                      controllers.Account.login(username, password)
+POST    /account/login              controllers.Account.loginPost()
+GET     /account/check              controllers.Account.checkAuth(number, session, cs)
+GET     /yank/menu                  controllers.Yank.menu(number, session)
+GET     /yank/:page                 controllers.Yank.yank(page, number, session, cs)
+GET     /moodle                     controllers.Redirect.moodle(number, session, cs)
+GET     /subjects/enrolled          controllers.Subjects.enrolled(number, session, cs)
+GET     /subject/:code              controllers.Subject.get(code)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
