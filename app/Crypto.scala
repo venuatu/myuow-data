@@ -1,6 +1,10 @@
 import javax.crypto._
 import javax.crypto.spec._
 import com.ning.http.util.Base64
+import play.api.libs.json.JsValue
+import java.util.zip.CRC32
+import play.api.libs.json.Json
+import java.nio.ByteBuffer
 
 /**
  * Some crypto functions that give ciphertext in a url friendly way
@@ -32,18 +36,39 @@ object Crypto {
 
   private val cipher = "AES/CTR/PKCS5PADDING"
   private val key = decode("LpjOiqu0UFd9uAZVHyodWg..")
+  private val longLen = 8
   
-  def encrypt(str: String): String = {
+  def encrypt(str: JsValue): String = {
     val ciph = Cipher.getInstance(cipher)
+    val crc = new CRC32
+    val bytes = stob(str.toString)
+    val bb = ByteBuffer.allocate(longLen)
+    crc.update(bytes)
+    bb.putLong(crc.getValue)
     ciph.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"))
     val iv = ciph.getIV;
-    encode(iv ++ ciph.doFinal(stob(str)))
+    encode(iv ++ ciph.doFinal(bb.array ++ bytes))
   }
   
-  def decrypt(str: String): String = {
+  def decrypt(str: String): Option[JsValue] = {
     val data = decode(str)
+    val ciphertext = data.slice(16, data.length)
+    val crc = new CRC32
     val ciph = Cipher.getInstance(cipher)
-    ciph.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(data.slice(0, 16)))
-    btos(ciph.doFinal(data.slice(16, data.length)))
+    ciph.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"), 
+      new IvParameterSpec(data.slice(0, 16)))
+    try {
+      val decrypted = ciph.doFinal(ciphertext)
+      val plain = decrypted.slice(longLen, decrypted.length)
+      crc.update(plain)
+      //println(btos(decrypted) + "\n" + btos(plain) + "\n" +
+      //    (crc.getValue + ":" + ByteBuffer.wrap(decrypted.slice(0, longLen)).getLong))
+      if (crc.getValue == ByteBuffer.wrap(decrypted.slice(0, longLen)).getLong)
+        Some(Json.parse(btos(plain)))
+      else
+        None
+    } catch {
+      case _: Throwable => None
+    }
   }
 }
