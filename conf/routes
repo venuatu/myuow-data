@@ -7,7 +7,7 @@ GET     /yank/menu                  controllers.Yank.menu(number, session)
 GET     /yank/:page                 controllers.Yank.yank(page, number, session, cs)
 GET     /moodle                     controllers.Redirect.moodle(number, session, cs)
 GET     /subjects/enrolled          controllers.Subjects.enrolled(number, session, cs)
-GET     /subject/:code              controllers.Subject.get(code)
+GET     /subject/:code              controllers.Subject.get(code, year ?="2014")
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

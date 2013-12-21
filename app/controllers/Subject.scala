@@ -13,7 +13,7 @@ import play.api.libs.json.JsValue
 
 object Subject extends Subject(models.http)
 class Subject(http: models.http) extends Controller with Extractors {
-  def get(code: String) = Action.async {
+  def get(code: String, year: String) = Action.async {
     async {
       val search = await(http.post("https://solss.uow.edu.au/owa/sid/Timetable_All.Process_Search",
           Map("p_subject_code" -> Seq(code.toUpperCase),
@@ -21,7 +21,7 @@ class Subject(http: models.http) extends Controller with Extractors {
             "p_subject_level" -> Seq("-1"),
             "p_session" -> Seq("-1"),
             "p_unit_abb" -> Seq("-1"),
-            "p_year" -> Seq("2013"),
+            "p_year" -> Seq(year),
             "p_campus_id" -> Seq("1"),
             "p_draft" -> Seq(""),
             "p_publish_date" -> Seq("27 Sep, 2013 12:55:46pm"),
