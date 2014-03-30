@@ -26,19 +26,21 @@ class Subject(http: models.http) extends Controller with Extractors {
             "p_draft" -> Seq(""),
             "p_publish_date" -> Seq("27 Sep, 2013 12:55:46pm"),
             "p_type" -> Seq("a"))
-        )).body
-      val identifier = regexPullFirst(SUBJECT_IDENTIFIER_REGEX, search)
-      val subject = await(http.post("https://solss.uow.edu.au/owa/sid/Timetable_All.search_result_timetable",
-          Map("p_year" -> Seq("2013"),
+      )).body
+      if (search.contains("No Subjects were found")) {
+        NotFound(Json.toJson(Map("error" -> "No subject found")))
+      } else {
+        val identifier = regexPullFirst(SUBJECT_IDENTIFIER_REGEX, search)
+        val subject = await(http.post("https://solss.uow.edu.au/owa/sid/Timetable_All.search_result_timetable",
+          Map("p_year" -> Seq(year),
             "p_campus_id" -> Seq("1"),
             "p_draft" -> Seq(""),
             "p_publish_date" -> Seq("27 Sep, 2013 12:55:46pm"),
             "p_type" -> Seq("a"),
             "p_sub_instid_varray" -> Seq("-1", identifier))
         )).body
-      if (subject.contains("No subjects were found"))
-        NotFound("")
-      Ok(parseSubject(subject))
+        Ok(parseSubject(subject))
+      }
     }
   }
 
