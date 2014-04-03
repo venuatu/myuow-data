@@ -18,15 +18,15 @@ class SubjectSpec extends UnitSpec with BeforeExample {
     http.get(any[String]) returns Future { failure("default http get"); defaultresp }
     //http.post(any[String], any[Map[String, Seq[String]]]) returns Future { failure("default http post"); defaultresp }
   }
-  
+
   "/subject" should {
     "give me the right data" in {
       http.post(Matchers.eq("https://solss.uow.edu.au/owa/sid/Timetable_All.Process_Search"), any[Map[String, Seq[String]]]) returns Future { Responses.Subject.search }
       http.post(Matchers.eq("https://solss.uow.edu.au/owa/sid/Timetable_All.search_result_timetable"), any[Map[String, Seq[String]]]) returns Future { Responses.Subject.info }
 
       val controller = new controllers.Subject(http)
-      val result = controller.get("meow")(FakeRequest())
-      
+      val result = controller.get("meow", "2014")(FakeRequest())
+
       status(result) must equalTo(200)
       contentAsJson(result) must equalTo(Json.parse("""
 {
@@ -93,7 +93,7 @@ class SubjectSpec extends UnitSpec with BeforeExample {
   
   "/subjects/enrolled" should {
     "work" in {
-      http.get("timetable_student.call_main?P_STUDENT_NUMBER=&P_SESSION_ID=&p_cs=") returns Future { Responses.Subject.timetable }
+      http.get("https://solss.uow.edu.au/sid/timetable_student.call_main?P_STUDENT_NUMBER=&P_SESSION_ID=&p_cs=") returns Future { Responses.Subject.timetable }
 
       val controller = new controllers.Subjects(http)
       val result = controller.enrolled("", "", "")(FakeRequest())
@@ -108,8 +108,8 @@ class SubjectSpec extends UnitSpec with BeforeExample {
       val controller = new controllers.Subjects(http)
       val result = controller.enrolled("", "", "")(FakeRequest())
 
-      contentAsString(result) must contain("Invalid session")
       status(result) must equalTo(401)
+      contentAsString(result) must contain("Invalid session")
     }
     
     "timetable" should {
