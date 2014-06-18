@@ -45,6 +45,7 @@ class TimetableSpec extends UnitSpec {
         "hours": "2L, 3T",
         "coordinators": ["A/PR Peter Wypych"],
         "lecturers": ["Mr Bruce Fowler", "Dr David Hastie", "Prof Timothy McCarthy", "A/PR Peter Wypych"],
+        "tutors": [],
         "classes": {
           "Computer Lab": [
             { "day": "Tue", "start": "08:30", "finish": "10:30", "location": "4-122", "week": "4-13" },
