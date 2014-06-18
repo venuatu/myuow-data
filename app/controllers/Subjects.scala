@@ -10,6 +10,7 @@ import play.api.libs.json.Json
 import scala.util.matching.Regex
 import scala.async.Async.{async, await}
 import helpers.Extractors
+import models.Timetable
 
 object Subjects extends Subjects(models.http)
 class Subjects(http: models.http) extends Controller with Extractors {
@@ -30,8 +31,8 @@ class Subjects(http: models.http) extends Controller with Extractors {
           s"P_STUDENT_NUMBER=${number}&P_SESSION_ID=${sid}&p_cs=${cs}")).body
       def wrap(str: String) = "<table>" + str + "</table>"
       val subjects = domParse(resp).select("div > table.t_b").map{a => wrap(a.toString)}
-        .map{Subject.parseSubject(_)}
-      Ok(Json.toJson(subjects))
+        //.map{Timetable.parseSubject(_)}
+      InternalServerError("NYI")
     }
   }
 }

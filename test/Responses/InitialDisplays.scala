@@ -2,7 +2,7 @@ package Responses
 
 object InitialDisplays {
   // GET sols_logon.initial_displays?p_student_number=1234567&p_session_id=GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG&p_display_number=0&p_cs=29310883241874709323
-  val hasMail = new Response(200, """
+  val hasMail = new TestResponse(200, """
 <HTML>
 <HEAD>
 <TITLE>SOLSMail History</TITLE>

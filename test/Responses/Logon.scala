@@ -4,7 +4,7 @@ object Logon {
   // POST sols_logon.validate_sols_logon
   val session = "GSZTHTRHDVCFDWDGJFKYSKLOYJRCVCOG"
   val number = 1234567
-  val success = new Response(200, """
+  val success = new TestResponse(200, """
 <HTML>
 <HEAD>
 <TITLE>My Sols</TITLE>
@@ -15,7 +15,7 @@ object Logon {
 </div>
 </BODY>
 </HTML>""")
-  val invalidCredentials = new Response(200, """
+  val invalidCredentials = new TestResponse(200, """
 <HTML>
 <HEAD>
 <TITLE>My Sols</TITLE>
@@ -26,7 +26,7 @@ object Logon {
 </div>
 </BODY>
 </HTML>""")
-  val rateLimit = new Response(200, """
+  val rateLimit = new TestResponse(200, """
 <HTML>
 <HEAD>
 <TITLE>My Sols</TITLE>

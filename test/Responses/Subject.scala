@@ -2,7 +2,7 @@ package Responses
 
 object Subject {
   val searchVarray = "220997"
-  val search = new Response(200, """
+  val search = new TestResponse(200, """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
@@ -344,7 +344,7 @@ Last Publish Date: 15 Nov, 2013 04:41:16pm
 </BODY>
 </HTML>""")
   
-  val info = new Response(200, """
+  val info = new TestResponse(200, """
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
@@ -1021,7 +1021,7 @@ Last Publish Date: 15 Nov, 2013 04:41:16pm
 </BODY>
 </HTML>""")
   
-  val timetable = new Response(200, """
+  val timetable = new TestResponse(200, """
 <HTML>
 <HEAD>
 <meta http-equiv="Page-Enter" content="blendTrans(Duration=0)">

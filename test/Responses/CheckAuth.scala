@@ -2,7 +2,7 @@ package Responses
 
 object CheckAuth {
 
-  val parameterMismatch = new Response(200, """
+  val parameterMismatch = new TestResponse(200, """
 <HTML>
 <HEAD>
 <TITLE>Parameter Mismatch</TITLE>
@@ -31,7 +31,7 @@ object CheckAuth {
 </div>
 </BODY>
 </HTML>""")
-  val timedOut = new Response(200, """
+  val timedOut = new TestResponse(200, """
 <HTML>
 <HEAD>
 <TITLE>Session Timeout</TITLE>
@@ -65,7 +65,7 @@ object CheckAuth {
 </BODY>
 </HTML>""")
   
-  val good = new Response(200, """
+  val good = new TestResponse(200, """
 
 <HTML>
 <HEAD>

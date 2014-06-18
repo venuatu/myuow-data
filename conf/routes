@@ -7,7 +7,11 @@ GET     /yank/menu                  controllers.Yank.menu(number, session)
 GET     /yank/:page                 controllers.Yank.yank(page, number, session, cs)
 GET     /moodle                     controllers.Redirect.moodle(number, session, cs)
 GET     /subjects/enrolled          controllers.Subjects.enrolled(number, session, cs)
-GET     /subject/:code              controllers.Subject.get(code, year ?="2014")
+GET     /campuses                   controllers.Subject.campuses()
+GET     /timetable/id/:id           controllers.Subject.getTimetable(id: Int)
+GET     /timetable/search/:code     controllers.Subject.searchTimetables(code, year: Int ?= 0, campus: Int ?= 1)
+GET     /description/id/:id         controllers.Subject.getDescription(id: Int, code, year: Int)
+GET     /description/search/:code   controllers.Subject.searchDescriptions(code, year: Int ?= 0)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -5,19 +5,8 @@ import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.libs.json.Json
 
-class YankSpec extends UnitSpec with BeforeExample {
-  var http = mock[models.http]
-  var defaultresp = mock[Response]
+class YankSpec extends UnitSpec {
 
-  override def before = {
-    http = mock[models.http]
-    defaultresp = mock[Response]
-    defaultresp.status returns 200
-    defaultresp.body returns "abcdef"
-    http.get(any[String]) returns Future { failure("default http get"); defaultresp }
-    //http.post(any[String], any[Map[String, Seq[String]]]) returns Future { failure("default http post"); defaultresp }
-  }
-  
   "/menu" should {// sols menu always responds with a menu
     "work" in {
       http.get(any[String]) returns Future { Responses.Menu.response }

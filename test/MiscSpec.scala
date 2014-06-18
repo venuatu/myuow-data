@@ -12,14 +12,8 @@ class MiscSpec extends UnitSpec {
       val one = Crypto.encrypt(id)
       val two = Crypto.encrypt(id)
       one must not equalTo(two)
-      val encoded = Crypto.encode(Crypto.stob(id.toString)).length
-      val deflate = new Deflater(Deflater.BEST_COMPRESSION)
-      deflate.setInput(Crypto.stob(id.toString))
-      deflate.finish
-      val out = new Array[Byte](200)
-      val len = deflate.deflate(out)
-      val enc = Crypto.encode(out.slice(0, len))
-      println(s"${len} ${id.toString.length} ${1.0 * len/ id.toString.length}")
+      Crypto.encode(Crypto.stob(id.toString)).length
+
       Crypto.decrypt(one) must beSome(id)
       Crypto.decrypt(two) must beSome(id)
     }
@@ -29,6 +23,39 @@ class MiscSpec extends UnitSpec {
       def modify(str: String) =// Change a single character
         str.replace(str.charAt(str.length / 2), (str.charAt(str.length / 2).toInt -1).toChar)
       Crypto.decrypt(modify(one)) must beNone
+    }
+  }
+
+  "http" should {
+    "properly encode http forms" in {
+      models.http.formEncode(
+        "p_faccde" -> Seq(""),
+        "p_depabb" -> Seq(""),
+        "p_subcode" -> Seq("code"),
+        "p_cal_subject_id" -> Seq("id"),
+        "p_year" -> Seq("year"),
+        "p_cal_type" -> Seq("U"),
+        "p_cal_types" -> Seq("UP"),
+        "p_breadcrumb_type" -> Seq("")
+      ) must beEqualTo("p_faccde=&p_depabb=&p_subcode=code&p_cal_subject_id=id&p_year=year&p_cal_type=U&p_cal_types=UP&p_breadcrumb_type=")
+    }
+    "properly decode http forms" in {
+      models.http.formDecode("a=1&a=2&a=%26%3D&b=15&c=").toVector must containTheSameElementsAs(Vector(
+        "a" -> Seq("1", "2", "&="),
+        "b" -> Seq("15"),
+        "c" -> Seq("")
+      ))
+    }
+  }
+
+  "Extractors.kvTuplesToMap" should {
+    "work" in {
+      helpers.Extractors.kvTuplesToMap(
+        Seq(("a", 1), ("b", 2), ("b", 3))
+      ) must beEqualTo(Map(
+        "a" -> Seq(1),
+        "b" -> Seq(2, 3)
+      ))
     }
   }
 }
