@@ -19,10 +19,10 @@ object TimetableSearch {
           "p_session" -> Seq("-1"),
           "p_unit_abb" -> Seq("-1"),
           "p_year" -> Seq(year.toString),
-          "p_campus_id" -> Seq("1"),
+          "p_campus_id" -> Seq(campus.toString),
           "p_draft" -> Seq(""),
           "p_publish_date" -> Seq("27 Sep, 2013 12:55:46pm"),
-          "p_type" -> Seq(campus.toString))
+          "p_type" -> Seq("a"))
       )).body
 
       parseInstances(search)

@@ -45,8 +45,11 @@ object Description {
     val availability: Seq[Availability] = data("Subject Availability").map{rows =>
       val data = definitionsToKeyVals(rows)
       val rootNode = rows(0).parent()
-      Availability(data("Session"), data("Campus"), data("Course Restrictions"), data("Contact Hours"),
-        getTeacherInfo(rootNode, "Lecturer"), getTeacherInfo(rootNode, "Coordinator"), data("Census Date"))
+      val sessionData = EXTRACT_SESSION.findFirstMatchIn(data("Session")).get.subgroups.map{toIsoDate}
+      val session = Session(sessionData(0), sessionData(1), sessionData(2), toIsoDate(data("Census Date")))
+
+      Availability(session, data("Campus"), data("Course Restrictions"), data("Contact Hours"),
+        getTeacherInfo(rootNode, "Lecturer"), getTeacherInfo(rootNode, "Coordinator"))
     }
 
     def extractFreeText(elements: Seq[Seq[Element]]): Seq[String] = elements.flatMap{_.flatMap{getFreeText}}
@@ -83,16 +86,22 @@ object Description {
     }
     return data.filterNot{str => str.isEmpty || str == "&nbsp;"}.toSeq
   }
+  // "Spring  (28-07-2014 to 20-11-2014)"
+  private val EXTRACT_SESSION = """^([\w\d\s]+)  \(([0-9-]+) to ([0-9-]+)\)$""".r
+
+  def toIsoDate(date: String): String = date.split('-').reverse.mkString("-")
 
   sealed trait DescriptionTables
   case class Information(code: String, name: String, points: String, prerequisites: String, corequisites: String,
                 restrictions: String, equiv: String, assessment: String) extends DescriptionTables
-  case class Availability(session: String, campus: String, restrictions: String, hours: String,
-                          lecturers: Seq[String], coordinators: Seq[String], census: String) extends DescriptionTables
+  case class Session(name: String, start: String, end: String, census: String)
+  case class Availability(session: Session, campus: String, restrictions: String, hours: String,
+                          lecturers: Seq[String], coordinators: Seq[String]) extends DescriptionTables
   case class Details(text: String) extends DescriptionTables
 
   case class Description(information: Information, availability: Seq[Availability], description: String, extra: Seq[String])
   implicit val informationFmt = Json.format[Information]
+  implicit val sessionFmt = Json.format[Session]
   implicit val availabilityFmt = Json.format[Availability]
   implicit val descriptionFmt = Json.format[Description]
 }
