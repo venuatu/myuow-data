@@ -48,10 +48,10 @@ object Timetable {
     val data: Map[String, String] = fields.map{case (name, elem) => (name, elem.text())}
 
     Subject(data("code"), data("name"), data("year").toInt, data("session"), data("campus"), data("points"), data("hours"),
-      staff.get("Coordinator").getOrElse(List()), staff.get("Lecturer").getOrElse(List()), classes)
+      pullStaff(staff, "Coordinator"), pullStaff(staff, "Lecturer"), pullStaff(staff, "Tutor"), classes)
   }
 
-  val STAFF_FIELDS = Seq("<b>Lecturer</b>", "<b>Coordinator</b>")
+  val STAFF_FIELDS = Seq("<b>Lecturer</b>", "<b>Coordinator</b>", "<b>Tutor</b>")
   private def extractStaff(staff: Array[String]): Seq[(String, String)] = {
     var curr: String = "Lecturer"
     for (member <- staff
@@ -59,10 +59,12 @@ object Timetable {
     ) yield (curr, member)
   }
 
+  private def pullStaff(staff: Map[String, Seq[String]], staffType: String) = staff.get(staffType).getOrElse(Seq())
+
   case class Class(day: String, start: String, finish: String, location: String, week: String)
   case class Subject(code: String, name: String, year: Int, session: String, campus: String,
                      points: String, hours: String, coordinators: Seq[String], lecturers: Seq[String],
-                     classes: Map[String, Seq[Class]])
+                     tutors: Seq[String], classes: Map[String, Seq[Class]])
   implicit val classFmt = Json.format[Class]
   implicit val subjectFmt = Json.format[Subject]
 

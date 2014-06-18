@@ -61,8 +61,11 @@ object Description {
     Description(info, availability, description, extra)
   }
 
-  private def definitionsToKeyVals(row: Seq[Element]): Map[String, String] =
-    row.map{_.children().toSeq.map{_.text().trim}}.map{a => (a(0), a(1))}.toMap
+  private def definitionsToKeyVals(row: Seq[Element]): Map[String, String] = {
+    row.map{_.children().toVector.map{_.text().trim}}
+      .map{a => (a(0), if (a.length > 1) a(1) else "")}.toMap
+  }
+
 
   private def getTeacherInfo(elem: Element, teacherType: String): Seq[String] = {
     try {
@@ -87,7 +90,7 @@ object Description {
     return data.filterNot{str => str.isEmpty || str == "&nbsp;"}.toSeq
   }
   // "Spring  (28-07-2014 to 20-11-2014)"
-  private val EXTRACT_SESSION = """^([\w\d\s]+)  \(([0-9-]+) to ([0-9-]+)\)$""".r
+  private val EXTRACT_SESSION = """^(.+)  \(([0-9-]+) to ([0-9-]+)\)$""".r
 
   def toIsoDate(date: String): String = date.split('-').reverse.mkString("-")
 
