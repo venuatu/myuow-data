@@ -1,16 +1,11 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
 import scala.concurrent._
-import scala.concurrent.duration.DurationInt
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.libs.json.Json
-import scala.util.matching.Regex
 import scala.async.Async.{async, await}
 import helpers.Extractors
-import play.api.libs.json.JsObject
-import play.api.libs.json.JsObject
 
 object Account extends Account(models.http)
 class Account(http: models.http) extends Controller with Extractors {
@@ -54,7 +49,8 @@ class Account(http: models.http) extends Controller with Extractors {
 
   val INVALID_SESSION_STRINGS = Array("Your session has timed out.", "Parameter Mismatch",
       "You are not currently logged on to the SOLS system")
-  
+
+  case class AccountData (number: Int, session: String, cs: String)
   def invalidSession(str: String) = INVALID_SESSION_STRINGS.exists(str.contains(_))
       
   implicit val accountDataFmt = Json.format[AccountData]
@@ -65,5 +61,3 @@ class Account(http: models.http) extends Controller with Extractors {
     var locked = raw"SOLS has been locked until ([^\<]*)".r
   }
 }
-
-case class AccountData (number: Int, session: String, cs: String)

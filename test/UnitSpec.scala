@@ -9,8 +9,8 @@ import scala.concurrent.Future
 
 @RunWith(classOf[JUnitRunner])
 class UnitSpec extends PlaySpecification with Mockito with BeforeExample {
-  var http = mock[models.http]
-  var defaultresp = TestResponse(200, "abcdef")
+  implicit var http: models.http = null
+  val defaultresp = TestResponse(200, "abcdef")
 
   override def before = {
     http = mock[models.http]

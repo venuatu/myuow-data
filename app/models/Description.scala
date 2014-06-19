@@ -6,7 +6,7 @@ import scala.concurrent.Future
 import play.api.libs.json.Json
 import helpers.Extractors
 import helpers.JsonHelpers.CacheAsJson
-import org.jsoup.nodes.{Node, Element}
+import org.jsoup.nodes.{TextNode, Node, Element}
 import org.jsoup.select.NodeVisitor
 
 object Description {
@@ -28,13 +28,15 @@ object Description {
   }
 
   def parseDescription(document: String): Description = {
-    val doc = Extractors.domParse(document).select("table")
-    val entries = doc.subList(0, doc.size -1)
+    val doc = Extractors.domParse(document).select("table[width=75%]")
+    val entries = doc.subList(0, doc.size)
 
     val data: Map[String, Seq[Seq[Element]]] = Extractors.kvTuplesToMap(entries.map{entry =>
       val rows = entry.child(0).children()
       rows.first().text() -> rows.drop(1).toVector
     })
+
+    println(data.keySet)
 
     val info: Information = data("Subject Information").map {rows =>
       val data = definitionsToKeyVals(rows)
@@ -63,7 +65,7 @@ object Description {
 
   private def definitionsToKeyVals(row: Seq[Element]): Map[String, String] = {
     row.map{_.children().toVector.map{_.text().trim}}
-      .map{a => (a(0), if (a.length > 1) a(1) else "")}.toMap
+      .map{a => (a(0), if (a.length > 1) a(1) else {println(a(0)); ""})}.toMap
   }
 
 
@@ -81,13 +83,15 @@ object Description {
     elem.childNodes().foreach{node =>
       node.traverse(new NodeVisitor {
         override def head(node: Node, depth: Int) {
-          if (node.nodeName() == "#text")
-            data += node.toString.trim
+          node match {
+            case textNode: TextNode => data += textNode.text().trim
+            case _ =>
+          }
         }
         override def tail(node: Node, depth: Int) {}
       })
     }
-    return data.filterNot{str => str.isEmpty || str == "&nbsp;"}.toSeq
+    data.filterNot{str => str.isEmpty || str == "&nbsp;"}.toSeq
   }
   // "Spring  (28-07-2014 to 20-11-2014)"
   private val EXTRACT_SESSION = """^(.+)  \(([0-9-]+) to ([0-9-]+)\)$""".r

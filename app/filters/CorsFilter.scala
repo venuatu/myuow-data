@@ -4,14 +4,12 @@ import play.api.mvc._
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 import controllers.Default
-import play.api.libs.iteratee.Enumerator
-import play.Logger
 
 object CorsFilter extends Filter {
-  def isPreFlight(req: RequestHeader) = (
-    req.method.toLowerCase().equals("options") && req.headers.get("Access-Control-Request-Method").nonEmpty)
+  def isPreFlight(req: RequestHeader) =
+    req.method.toLowerCase.equals("options") && req.headers.get("Access-Control-Request-Method").nonEmpty
   
-  override def apply(next: RequestHeader => Future[SimpleResult])(request: RequestHeader): Future[SimpleResult] = {
+  override def apply(next: RequestHeader => Future[Result])(request: RequestHeader): Future[Result] = {
     if (isPreFlight(request)) {
       Future { Default.Ok.withHeaders(
         "Access-Control-Allow-Origin" -> request.headers.get("Origin").getOrElse("*"),

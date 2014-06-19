@@ -9,6 +9,8 @@ import play.api.libs.json.JsObject
 import play.api.libs.json.JsString
 import scala.Some
 import play.api.cache.Cache
+import play.api.mvc.Result
+import play.api.http.ContentTypes
 
 object JsonHelpers extends JsonHelpers
 trait JsonHelpers {

@@ -7,7 +7,6 @@ import scala.concurrent.Future
 import scala.collection.JavaConversions._
 import scala.async.Async._
 import scala.concurrent.ExecutionContext.Implicits.global
-import org.joda.time.LocalDate
 
 object TimetableSearch {
   def apply(code: String, year: Int, campus: Int)(implicit http: models.http): Future[List[InstanceDetails]] = {

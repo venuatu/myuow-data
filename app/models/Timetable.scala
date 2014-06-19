@@ -7,7 +7,6 @@ import scala.collection.JavaConversions._
 import play.api.libs.json._
 import helpers.Extractors
 import helpers.JsonHelpers.CacheAsJson
-import play.api.cache.Cached
 import org.jsoup.nodes.Element
 
 object Timetable {

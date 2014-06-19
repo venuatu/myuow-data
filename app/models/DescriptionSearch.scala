@@ -6,7 +6,6 @@ import scala.concurrent.Future
 import helpers.Extractors
 import helpers.JsonHelpers.CacheAsJson
 import play.api.libs.json.Json
-import org.joda.time.LocalDate
 
 object DescriptionSearch {
 
