@@ -16,8 +16,11 @@ object Timetables extends BaseController {
   }
 
   def get(id: Int) = Action.async {
-    Timetable(id).map{subject =>
-      prettyResult(200, subject).withHeaders(CACHE_AWHILE)
+    Timetable(id).map{
+      case Some(subject) =>
+        prettyResult(200, subject).withHeaders(CACHE_AWHILE)
+      case None =>
+        prettyResult(404, Map("error" -> "Subject not found"))
     }
   }
 

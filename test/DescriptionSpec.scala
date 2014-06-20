@@ -34,7 +34,7 @@ class DescriptionSpec extends UnitSpec {
 
     "parse" in new WithApplication {
       http.get(any[String]) returns Future { Responses.Descriptions.descResponse }
-      val result = Await.result(Description(42, "", 42), 1 second)
+      val result = Await.result(Description(42, "", 42, 42), 1 second)
 
       Json.toJson(result).toString must beEqualTo("""{}""")
     }.pendingUntilFixed("unstable api")

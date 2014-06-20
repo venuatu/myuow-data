@@ -11,5 +11,5 @@ GET     /subjects/enrolled          controllers.Subjects.enrolled(number, sessio
 GET     /campuses                   controllers.Timetables.campuses()
 GET     /timetables/id/:id          controllers.Timetables.get(id: Int)
 GET     /timetables/search/:code    controllers.Timetables.search(code, year: Int ?= 0, campus: Int ?= 1)
-GET     /descriptions/id/:id        controllers.Descriptions.get(id: Int, code, year: Int)
+GET     /descriptions/id/:id        controllers.Descriptions.get(id: Int, code, faculty: Int, year: Int)
 GET     /descriptions/search/:code  controllers.Descriptions.search(code, year: Int ?= 0)

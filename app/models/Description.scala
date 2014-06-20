@@ -10,10 +10,10 @@ import org.jsoup.nodes.{TextNode, Node, Element}
 import org.jsoup.select.NodeVisitor
 
 object Description {
-  def apply(id: Int, code: String, year: Int)(implicit http: models.http): Future[Description] = {
-    CacheAsJson(s"description.$year|${code.toUpperCase}|$id") {
+  def apply(id: Int, code: String, facultyId: Int, year: Int)(implicit http: models.http): Future[Option[Description]] = {
+    CacheAsJson(s"description.$year|$facultyId|${code.toUpperCase}|$id") {
       http.get("https://sols.uow.edu.au/sid/CAL.USER_SUBJECTINFO_SCREEN?" + http.formEncode(
-        "p_faccde" -> Seq(""),
+        "p_faccde" -> Seq(facultyId.toString),
         "p_depabb" -> Seq(""),
         "p_subcode" -> Seq(code.toUpperCase),
         "p_cal_subject_id" -> Seq(id.toString),
@@ -22,7 +22,10 @@ object Description {
         "p_cal_types" -> Seq("UP"),
         "p_breadcrumb_type" -> Seq("")
       )).map {resp =>
-        parseDescription(resp.body)
+        if (!resp.body.contains("No subject description available."))
+          Some(parseDescription(resp.body))
+        else
+          None
       }
     }
   }

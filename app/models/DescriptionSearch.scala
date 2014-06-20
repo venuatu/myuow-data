@@ -34,14 +34,14 @@ object DescriptionSearch {
     doc.first().select("tr").iterator.drop(1).toSeq.map{desc =>
       val children = desc.children()
       val link = children.select("a").attr("href")
-      val query = http.formDecode(link.substring(link.indexOf('?')))
+      val query = http.formDecode(link.substring(link.indexOf('?') +1))
 
       DescriptionDetails(query("p_cal_subject_id")(0).toInt, query("p_subcode")(0), query("p_year")(0).toInt,
-        children.get(1).text(), children.get(2).text())
+        children.get(1).text(), query("p_faccde")(0).toInt, children.get(2).text())
     }.toSeq
   }
 
   // https://sols.uow.edu.au/sid/CAL.USER_SUBJECTINFO_SCREEN?p_faccde=&p_depabb=&p_subcode=CSCI311&p_cal_subject_id=149729&p_year=2014&p_cal_type=U&p_cal_types=UP&p_breadcrumb_type=
-  case class DescriptionDetails(id: Int, code: String, year: Int, name: String, points: String)
+  case class DescriptionDetails(id: Int, code: String, year: Int, name: String, faculty_id: Int, points: String)
   implicit val detailsFmt = Json.format[DescriptionDetails]
 }

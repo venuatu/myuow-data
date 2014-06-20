@@ -10,7 +10,7 @@ import helpers.JsonHelpers.CacheAsJson
 import org.jsoup.nodes.Element
 
 object Timetable {
-  def apply(instanceId: Int)(implicit http: models.http): Future[Subject] = CacheAsJson(s"timetable.$instanceId") {
+  def apply(instanceId: Int)(implicit http: models.http): Future[Option[Subject]] = CacheAsJson(s"timetable.$instanceId") {
     async {
       val data = await(http.post("https://solss.uow.edu.au/owa/sid/Timetable_All.search_result_timetable",
         Map("p_year" -> Seq("2014"),
@@ -21,8 +21,11 @@ object Timetable {
           "p_sub_instid_varray" -> Seq("-1", instanceId.toString)) // This allows for more than one subject per page
       )).body
 
-      val doc = Extractors.domParse(data).select("table").get(1)
-      parseTimetable(doc)
+      val doc = Extractors.domParse(data).select("table.t_b:not([width])")
+      if (doc.size() == 0)
+        None
+      else
+        Some(parseTimetable(doc.get(0)))
     }
   }
 
