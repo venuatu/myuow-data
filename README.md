@@ -1,10 +1,12 @@
 # myuow-data
 
-A reimplementation of the not very much done sols scraper originally written using restify(node.js) but using TDD and static typing =]
+This project is live at: https://myuow.venuatu.me/api/ with a nice frontend at https://myuow.venuatu.me/ ([repo](https://github.com/venuatu/myuow))
+
+This is a scraper for UOW subject and timetabling information that may reach into SOLS (the internal student self service portal)
 
 ## Why?
 
-I felt like learning scala and play and needed something project to work on
+I needed a project to get better at scala and porting the previous hackathon built version seemed like a good idea.
 
 ## What is this using?
 
